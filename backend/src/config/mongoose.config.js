@@ -1,19 +1,24 @@
 import mongoose from "mongoose";
-import config from "./environment.js";
+import "dotenv/config";
 
-export const connectDB = async () => {
+const options = {
+  serverSelectionTimeoutMS: 60000, // Increase timeout
+  connectTimeoutMS: 60000,
+};
 
-  if (!config.dbURI) {
-    throw new Error("Database URI is not defined in environment variables")
-    process.exit(1)
-  }
+let isConnected;
+
+export async function connectDB() {
+  if (isConnected) return;
 
   try {
-    await mongoose.connect(config.dbURI)
-    console.log("Database connected successfully")
-
-  } catch (error) {
-    console.log(error)
-    process.exit(1)
+    await mongoose.connect(process.env.MONGODB_URI, options);
+    isConnected = true;
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+    throw err;
   }
 }
+
+
