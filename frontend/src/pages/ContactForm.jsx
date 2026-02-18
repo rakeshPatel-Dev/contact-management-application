@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { ArrowLeft, Send } from "lucide-react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 function ContactForm() {
   const {
@@ -14,11 +15,15 @@ function ContactForm() {
       priority: "medium",
     },
   });
+
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     try {
       await axios.post("http://localhost:3000/api/contacts", data);
       toast.success("Contact added successfully");
       reset();
+      navigate("/")
     } catch (error) {
       console.log(error.message);
       toast.error("Something went wrong");
@@ -30,10 +35,12 @@ function ContactForm() {
       <div className="w-full max-w-lg space-y-4">
 
         {/* Back Button */}
-        <button className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition">
-          <ArrowLeft size={16} />
-          Back
-        </button>
+        <Link to="/" className="cursor-pointer">
+          <button className="flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition">
+            <ArrowLeft size={16} />
+            View Submissions
+          </button>
+        </Link>
 
         {/* Heading */}
         <div className="text-center space-y-2">
@@ -133,7 +140,7 @@ function ContactForm() {
           <div className="flex flex-col gap-4 pt-4">
             <button
               type="submit"
-              className="w-full bg-neutral-800 hover:bg-neutral-700 transition rounded-lg py-3 cursor-pointer flex items-center justify-center gap-2 font-medium"
+              className="w-full bg-neutral-800 hover:bg-neutral-700 transition rounded-lg py-3 flex items-center justify-center gap-2 font-medium"
             >
               Save Contact
               <Send size={16} />
@@ -142,7 +149,7 @@ function ContactForm() {
             <button
               type="button"
               onClick={() => reset()}
-              className="text-sm cursor-pointer text-neutral-400 hover:text-white transition"
+              className="text-sm text-neutral-400 hover:text-white transition"
             >
               Reset Form
             </button>

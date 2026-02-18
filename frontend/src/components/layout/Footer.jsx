@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <footer className=' bg-neutral-950 border-t border-neutral-800"'>
-      <div className='flex items-center  justify-center gap-4 h-16'>
+      <div className='flex items-center flex-col sm:flex-row  justify-center gap-4 h-16'>
         <p className="text-center text-neutral-600">
           Contact Management System
         </p>
